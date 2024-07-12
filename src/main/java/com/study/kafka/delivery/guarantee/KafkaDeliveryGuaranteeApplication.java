@@ -19,13 +19,12 @@ public class KafkaDeliveryGuaranteeApplication {
 
 		// Produce messages
 		int messageCount = 10000000;
-//		int messageCount = 20000;
 		Producer producer = context.getBean(Producer.class);
 		Consumer consumer = context.getBean(Consumer.class);
 		consumer.setExpectedMessageCount(messageCount);
 
 		for (int i = 0; i < messageCount; i++) {
-			if (i % 1000 == 0) {
+			if (i % 10000 == 0) {
 				log.info("Messages produced: " + producer.getMessageCount().toString());
 			}
 			producer.sendMessage("Hello, Kafka!");

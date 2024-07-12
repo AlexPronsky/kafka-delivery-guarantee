@@ -25,9 +25,6 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-      # Exactly once
-#      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1  # For transactions
-#      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1             # For transactions
     networks:
       - kafka_network
 

@@ -23,12 +23,5 @@ public class Producer {
         } finally {
             messageCount.incrementAndGet();
         }
-
-//        // Exactly once
-//        kafkaTemplate.executeInTransaction(kafkaOperations -> {
-//            kafkaOperations.send(TOPIC, message);
-//            messageCount.incrementAndGet();
-//            return true;
-//        });
     }
 }
