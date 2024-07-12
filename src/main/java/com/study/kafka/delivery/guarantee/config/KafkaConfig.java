@@ -27,24 +27,13 @@ public class KafkaConfig {
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
-        // At least once guarantee
-        configProps.put(ProducerConfig.ACKS_CONFIG, "1");
-        configProps.put(ProducerConfig.RETRIES_CONFIG, Integer.MAX_VALUE);
-        configProps.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, 1000);
-
-        // At most once guarantee
-//        configProps.put(ProducerConfig.ACKS_CONFIG, "0");
-//        configProps.put(ProducerConfig.RETRIES_CONFIG, 0); // No retries
-//        configProps.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, 0);
-
         // Exactly-once
-//        configProps.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);  // Enable idempotence
-//        configProps.put(ProducerConfig.ACKS_CONFIG, "all");  // Stronger durability guarantees
-//        configProps.put(ProducerConfig.RETRIES_CONFIG, Integer.MAX_VALUE);  // Retry indefinitely
-//        configProps.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, 5);  // Ensure ordering with idempotence
-//        configProps.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "my-transactional-id-");  // Enable transactions
+        configProps.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, true);  // Enable idempotence
+        configProps.put(ProducerConfig.ACKS_CONFIG, "all");  // Stronger durability guarantees
+        configProps.put(ProducerConfig.RETRIES_CONFIG, Integer.MAX_VALUE);  // Retry indefinitely
+        configProps.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, 5);  // Ensure ordering with idempotence
+        configProps.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "my-transactional-id-");  // Enable transactions
 
-//        configProps.put(ProducerConfig.METADATA_MAX_AGE_CONFIG, 30000);
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
@@ -62,8 +51,8 @@ public class KafkaConfig {
         props.put(org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringDeserializer.class);
 
         // Exactly-once
-//        props.put(org.apache.kafka.clients.consumer.ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);  // Disable auto commit
-//        props.put(org.apache.kafka.clients.consumer.ConsumerConfig.ISOLATION_LEVEL_CONFIG, "read_committed");  // Read committed records only
+        props.put(org.apache.kafka.clients.consumer.ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);  // Disable auto commit
+        props.put(org.apache.kafka.clients.consumer.ConsumerConfig.ISOLATION_LEVEL_CONFIG, "read_committed");  // Read committed records only
 
         return new DefaultKafkaConsumerFactory<>(props);
     }
@@ -74,7 +63,7 @@ public class KafkaConfig {
         factory.setConsumerFactory(consumerFactory());
 
         // Exactly-once
-//        factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE);  // Manual commit
+        factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE);  // Manual commit
 
         return factory;
     }

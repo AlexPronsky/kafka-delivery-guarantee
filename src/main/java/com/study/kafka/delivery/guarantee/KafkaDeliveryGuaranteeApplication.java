@@ -18,8 +18,7 @@ public class KafkaDeliveryGuaranteeApplication {
 		Thread.sleep(10000);
 
 		// Produce messages
-		int messageCount = 10000000;
-//		int messageCount = 20000;
+		int messageCount = 20000;
 		Producer producer = context.getBean(Producer.class);
 		Consumer consumer = context.getBean(Consumer.class);
 		consumer.setExpectedMessageCount(messageCount);

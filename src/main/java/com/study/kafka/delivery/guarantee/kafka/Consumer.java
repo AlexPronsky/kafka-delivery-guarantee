@@ -17,33 +17,20 @@ public class Consumer {
     private int expectedMessageCount;
     private AtomicInteger messageCount = new AtomicInteger(0);
 
+    // Exactly-once
     @KafkaListener(topics = "test_topic", groupId = "group_id")
-    public void consume(String message) {
+    public void consume(String message, Acknowledgment acknowledgment) {
         int count = messageCount.incrementAndGet();
 
         if (count < expectedMessageCount - 100) {
-            if (count % 10000 == 0) {
+            if (count % 1000 == 0) {
                 log.info("Messages received: " + count + ", message: " + message);
             }
         } else {
             log.info("Messages received: " + count + ", message: " + message);
         }
-    }
 
-//    // Exactly-once
-//    @KafkaListener(topics = "test_topic", groupId = "group_id")
-//    public void consume(String message, Acknowledgment acknowledgment) {
-//        int count = messageCount.incrementAndGet();
-//
-//        if (count < expectedMessageCount - 100) {
-//            if (count % 1000 == 0) {
-//                log.info("Messages received: " + count + ", message: " + message);
-//            }
-//        } else {
-//            log.info("Messages received: " + count + ", message: " + message);
-//        }
-//
-//        // Manually acknowledge the message
-//        acknowledgment.acknowledge();
-//    }
+        // Manually acknowledge the message
+        acknowledgment.acknowledge();
+    }
 }

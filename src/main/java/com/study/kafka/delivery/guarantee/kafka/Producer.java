@@ -18,17 +18,11 @@ public class Producer {
     private KafkaTemplate<String, String> kafkaTemplate;
 
     public void sendMessage(String message) {
-        try {
-            kafkaTemplate.send(TOPIC, message);
-        } finally {
+        // Exactly once
+        kafkaTemplate.executeInTransaction(kafkaOperations -> {
+            kafkaOperations.send(TOPIC, message);
             messageCount.incrementAndGet();
-        }
-
-//        // Exactly once
-//        kafkaTemplate.executeInTransaction(kafkaOperations -> {
-//            kafkaOperations.send(TOPIC, message);
-//            messageCount.incrementAndGet();
-//            return true;
-//        });
+            return true;
+        });
     }
 }
